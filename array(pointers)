@@ -1,0 +1,260 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<malloc.h>
+#include<math.h>
+
+int i,j,n;
+ void remplir(float*T,int n)
+ {
+    for (i=0;i<n;i++)
+      {
+        printf("\n\t taper le %d element : ",i);
+        scanf("%f",(T+i));
+      }
+ }
+void affichage(float*t,int n)
+{
+	for (i=0;i<=n-1;i++)
+	{
+		printf("%f\n",*(t+i));
+	}
+}
+float Mintab(float *T,int n)
+ {   float min;
+     int i;
+     min=*(T);
+     for(i=0;i<n;i++)
+     {
+         if(*(T+i)<min)
+         min=*(T+i);
+     }
+     return(min);
+ }
+void  Rechseq(float *T , float x,int n)
+{     i=0;
+	while ((*(T+i)!=x)&&(i<n-1))
+	{i++;}
+		if(*(T+i) == x)
+		{
+         printf("\n\n\t\t indice = %d",i);
+		}
+		else
+        {
+            printf("\n\n\t\t element introuvable");
+
+        }
+}
+void triB(float*t,int n)
+{
+	int x,echange=1;
+	while(echange==1)
+	{
+		echange=0;
+		for(i=0;i<n-1;i++)
+		{
+			if(t[i]>t[i+1])
+			{
+				x=t[i];
+				t[i]=t[i+1];
+				t[i+1]=x;
+				echange=1;
+			}
+		}
+	}
+}
+void triS(float*t,int i)
+{
+	int x,ind;
+	for(i=0;i<n-1;i++)
+	{
+		ind=i;
+		for(j=i;j<n;j++)
+		{
+			if(t[j]<t[ind])
+			{
+				ind=j;
+			}
+		}
+		x=*(t+i);
+		*(t+i)=*(t+ind);
+		*(t+ind)=x;
+	}
+}
+void RechD(float *t,int x,int n)
+{
+	int pre=0,mil,der=n-1,trouv=0;
+	while((trouv==0)&&(pre<der))
+	{
+		mil=(pre+der)/2;
+		if(x<t[mil])
+		{
+			der=mil;
+		}
+		else
+		{
+			if(x>t[mil])
+			{
+				pre=mil;
+			}
+			else
+			{
+				trouv=1;
+			}
+		}
+	}
+	if(trouv==1)
+	{
+		printf("Indice=%d",mil);
+	}
+	else
+	{
+	    printf("Element introuvable.");
+	}
+	
+}
+void Eclater(float*t,float*tp,float*tn,int n)
+{
+	int i,k=0,j=0;
+	for(i=0;i<n;i++)
+	{
+		if((*(t+i))>0)
+		{
+			*(tp+j)=*(t+i);
+			j++;
+		}
+		if((*(t+i))<0)
+		{
+			*(tn+k)=*(t+i);
+			k++;
+		}
+		if((*(t+i))==0)
+		{
+			*(tn+k)=*(t+i);
+			k++;
+			*(tp+j)=*(t+i);
+			j++;
+		}
+	}
+}
+float Prodscal(float*u,float*v)
+{
+	float ps=0;
+	for(i=0;i<n;i++)
+	{
+		ps=ps+(u[i]*v[i]);
+	}
+	return (ps);
+}
+float NormVect(float*u)
+{
+	float ps=0;
+	for(i=0;i<n;i++)
+	{
+		ps=ps+pow(u[i],2);
+	}
+	return (sqrt(ps));
+}
+main()
+{
+	float *t,*tp,*tn,*u,*v,*U;
+	int x,X,L,I;
+	t=(float*)malloc(n);
+	tp=(float*)malloc(n);
+	tn=(float*)malloc(n);
+	u=(float*)malloc(n);
+	v=(float*)malloc(n);
+	U=(float*)malloc(n);
+	printf("\n\t taper le nombre d'element de votre tableau:");
+    scanf("%d",&n);
+    remplir(t,n);
+    affichage(t,n);
+    printf("\n\t min T:%f",Mintab(t,n));
+    printf("\n\t taper le nombre a rechercher:");
+    scanf("%d",&x);
+    Rechseq(t,x,n);
+    printf("\n\t La recherche dichotomique de X:");
+    scanf("%d",&X);
+    RechD(t,X,n);
+    printf("\n\t tableau trie a bull:\n");
+    triB(t,n);
+    affichage(t,n);
+    printf("\n\t tableau trie par selection:\n");
+    triS(t,n);
+    affichage(t,n);
+    printf("\n\t Eclatage:\n");
+    Eclater(t,tp,tn,n);
+	printf("%d %d\n",L,I);
+	printf("\t \t \tle t est:\n");
+	affichage(t,n);
+	printf("\t \t \tle tp est:\n");
+	affichage(tp,n);
+	printf("\t \t \tle tn est:\n");
+	affichage(tn,n);
+    printf("\n\n\tProduitScaliare de u et v:\n");
+    printf("\t  \tEntrer u:");
+    remplir(u,n);
+    printf("\t  \tEntrer v:");
+    remplir(v,n);
+    printf("\t \t \tle produit scaliare est %f\n",Prodscal(u,v));
+    printf("\t  \tEntrer U:");
+    remplir(U,n);
+    printf("\t \t \tLa Norme de U =%f",NormVect(U));
+    getch();
+}
+
+
+/* 
+	#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+
+typedef struct
+{
+	int mat ;
+	char nom[20];
+	float sal ;
+	char EC[2];
+}emp;
+
+void remplir (emp tab[] ,int n )
+{
+	
+	for (int i=0;i<n;i++)
+	{
+		printf("le matriclule de %d employee       :",i+1);
+		scanf("%d",&tab[i].mat);
+		printf("le nom de %d employee              :",i+1);
+		scanf("%s",&tab[i].nom);
+		printf("le salaire  de %d employee         :",i+1);
+		scanf("%f",&(tab[i]).sal);
+		printf("l'etat civil  de %d employee       :",i+1);
+		scanf("%s",&tab[i].EC);
+	}
+}
+
+int cmpt(emp tab[],int n)
+{
+	int c=0, i ;
+	for (i=0;i<n;i++)
+	{
+		if ((500<=tab[i].sal) && (tab[i].sal<=700))
+		{
+			c++;
+		}
+	}
+	return(c);
+}
+
+main ()
+{
+	emp tab[100] ;
+	int i,n;
+	printf (" nombre employeur dans votre societe  : ");
+	scanf ("%d",&n);
+	remplir(tab,n);
+	printf("Le nombre de employeur ayant une salaire entre 500 et 700 est %d \n\n\n\t\t",cmpt(tab,n));
+	getch () ;
+}
+
+*/
